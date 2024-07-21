@@ -82,7 +82,7 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
-
+vim.o.termguicolors = true
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -92,7 +92,7 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 -- This toggles dark/light automatically using `chiascuro`
-vim.o.background = 'light'
+vim.o.background = 'dark'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -205,6 +205,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- CUSTOM KEYBINDS
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -279,22 +281,29 @@ require('lazy').setup({
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
-
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-      }
-      -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
     end,
+    keys = {
+      -- Document existing key chains
+      { '<leader>c', group = '[C]ode' },
+      { '<leader>d', group = '[D]ocument' },
+      { '<leader>r', group = '[R]ename' },
+      { '<leader>s', group = '[S]earch' },
+      { '<leader>t', group = '[T]oggle' },
+      { '<leader>w', group = '[W]orkspace' },
+      -- My custom keymaps
+      { '<leader>g', group = '[G]it' },
+      { '<leader>i', group = 'insert' },
+      { '<leader>id', "<cmd>pu=strftime('%c')<cr>", desc = 'Insert Datetime' },
+      { '<leader>b', group = 'Buffers' },
+      {
+        '<leader>bD',
+        function()
+          CloseAllButCurrent()
+        end,
+        desc = 'Delete all other buffers',
+      },
+      { '<leader>bd', '<cmd>bd<cr>', desc = 'Delete Buffer' },
+    },
   },
 
   -- NOTE: Plugins can specify dependencies.
@@ -579,43 +588,6 @@ require('lazy').setup({
         --
         dockerls = {},
         docker_compose_language_service = {},
-        marksman = {},
-        pylsp = {
-          plugins = {
-            pycodestyle = {
-              maxLineLength = 120,
-            },
-            ruff = {
-              lineLength = 120,
-              enabled = true,
-              formatEnabled = true,
-            },
-            black = {
-              enabled = false,
-            },
-          },
-        },
-        rust_analyzer = {},
-        tailwindcss = {},
-        volar = {},
-
-        tsserver = {
-          init_options = {
-            plugins = {
-              {
-                name = '@vue/typescript-plugin',
-                location = '$HOME/.npm-global/lib/node_modules/@vue/typescript-plugin/',
-                languages = { 'javascript', 'typescript', 'vue' },
-              },
-            },
-          },
-          filetypes = {
-            'javascript',
-            'typescript',
-            'vue',
-          },
-        },
-
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -633,6 +605,44 @@ require('lazy').setup({
             },
           },
         },
+        marksman = {},
+        pylsp = {
+          plugins = {
+            pycodestyle = {
+              lineLength = 120,
+              maxLineLength = 120,
+            },
+            ruff = {
+              lineLength = 120,
+              maxLineLength = 120,
+              enabled = true,
+              formatEnabled = true,
+            },
+            black = {
+              enabled = false,
+            },
+          },
+        },
+        rust_analyzer = {},
+        tailwindcss = {},
+        tsserver = {
+          init_options = {
+            plugins = {
+              {
+                name = '@vue/typescript-plugin',
+                location = '$HOME/.npm-global/lib/node_modules/@vue/typescript-plugin/',
+                languages = { 'javascript', 'typescript', 'vue' },
+              },
+            },
+          },
+          filetypes = {
+            'javascript',
+            'typescript',
+            'vue',
+          },
+        },
+        volar = {},
+        yamlls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -821,9 +831,10 @@ require('lazy').setup({
       if vim.o.background == 'dark' then
         vim.cmd.colorscheme 'gruvbones'
       else
-        vim.cmd.colorscheme 'neobones'
+        vim.cmd.colorscheme 'gruvbones'
       end
     end,
+    -- vim.cmd.colorscheme 'gruvbones'
   },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -907,13 +918,13 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
+  -- require 'custom.keymaps'
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -942,6 +953,27 @@ require('lazy').setup({
   },
 })
 
+-- Define a function to close all other buffers, so we can which key it.
+CloseAllButCurrent = function()
+  local current_buf = vim.fn.bufnr()
+  local current_win = vim.fn.win_getid()
+  local bufs = vim.fn.getbufinfo { buflisted = 1 }
+  for _, buf in ipairs(bufs) do
+    if buf.bufnr ~= current_buf then
+      vim.cmd('silent! bdelete ' .. buf.bufnr)
+    end
+  end
+  vim.fn.win_gotoid(current_win)
+end
+-- wk.register({
+--   {
+--     { "<leader>b", group = "Buffers" },
+--     { "<leader>bD", function()CloseAllButCurrent()end, desc = "Delete all other buffers" },
+--     { "<leader>bd", "<cmd>bd<cr>", desc = "Delete Buffer" },
+--   }
+-- },
+
+require('colorizer').setup()
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
---

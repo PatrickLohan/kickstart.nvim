@@ -1,41 +1,41 @@
-local colors_name = "gruvbones"
+local colors_name = 'gruvbones'
 vim.g.colors_name = colors_name -- Required when defining a colorscheme
 
-local lush = require "lush"
+local lush = require 'lush'
 local hsluv = lush.hsluv -- Human-friendly hsl
-local util = require "zenbones.util"
+local util = require 'zenbones.util'
 
 local bg = vim.o.background
 
 -- Define a palette. Use `palette_extend` to fill unspecified colors
 -- Based on https://github.com/gruvbox-community/gruvbox#palette
 local palette
-if bg == "light" then
+if bg == 'light' then
   palette = util.palette_extend({
-    bg = hsluv "#f8f1d4",
-    fg = hsluv "#3c3836",
-    rose = hsluv "#9d0006",
-    leaf = hsluv "#79740e",
-    wood = hsluv "#b57614",
-    water = hsluv "#076678",
-    blossom = hsluv "#8f3f71",
-    sky = hsluv "#427b58",
+    bg = hsluv '#F1F0EB',
+    fg = hsluv '#3C3836',
+    rose = hsluv '#9d0006',
+    leaf = hsluv '#79740e',
+    wood = hsluv '#af3a03',
+    water = hsluv '#076678',
+    blossom = hsluv '#8f3f71',
+    sky = hsluv '#427b58',
   }, bg)
 else
   palette = util.palette_extend({
-    bg = hsluv "#1D2021",
-    fg = hsluv "#ebdbb2",
-    rose = hsluv "#fb4934",
-    leaf = hsluv "#b8bb26",
-    wood = hsluv "#fabd2f",
-    water = hsluv "#83a598",
-    blossom = hsluv "#d3869b",
-    sky = hsluv "#83c07c",
+    bg = hsluv '#1D2021',
+    fg = hsluv '#ebdbb2',
+    rose = hsluv '#fb4934',
+    leaf = hsluv '#b8bb26',
+    wood = hsluv '#d65d0e',
+    water = hsluv '#83a598',
+    blossom = hsluv '#d3869b',
+    sky = hsluv '#83c07c',
   }, bg)
 end
 
 -- Generate the lush specs using the generator util
-local generator = require "zenbones.specs"
+local generator = require 'zenbones.specs'
 local base_specs = generator.generate(palette, bg, generator.get_global_config(colors_name, bg))
 
 -- Optionally extend specs using Lush
@@ -43,7 +43,7 @@ local specs = lush.extends({ base_specs }).with(function()
   return {
     Statement { base_specs.Statement, fg = palette.rose },
     Special { fg = palette.water },
-    Type { fg = palette.sky, gui = "italic" },
+    Type { fg = palette.sky, gui = 'italic' },
   }
 end)
 
@@ -51,4 +51,4 @@ end)
 lush(specs)
 
 -- Optionally set term colors
-require("zenbones.term").apply_colors(palette)
+require('zenbones.term').apply_colors(palette)

@@ -23,4 +23,5 @@ return {
       { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
+  { 'norcalli/nvim-colorizer.lua' },
 }
