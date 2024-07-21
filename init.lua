@@ -212,7 +212,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+  if vim.v.shell_error ~= 0 then
+    error('Error cloning lazy.nvim:\n' .. out)
+  end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
@@ -281,28 +284,40 @@ require('lazy').setup({
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
+
+      -- Document existing key chains
+      require('which-key').add {
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>t', group = '[T]oggle' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        -- My custom keymaps
+        { '<leader>g', group = '[G]it' },
+        { '<leader>i', group = 'insert' },
+        { '<leader>id', "<cmd>pu=strftime('%c')<cr>", desc = 'Insert Datetime' },
+        { '<leader>b', group = 'Buffers' },
+        {
+          '<leader>bD',
+          function()
+            CloseAllButCurrent()
+          end,
+          desc = 'Delete all other buffers',
+        },
+        { '<leader>bd', '<cmd>bd<cr>', desc = 'Delete Buffer' },
+      }
     end,
     keys = {
       -- Document existing key chains
       { '<leader>c', group = '[C]ode' },
       { '<leader>d', group = '[D]ocument' },
+      { '<leader>g', group = '[G]it' },
       { '<leader>r', group = '[R]ename' },
       { '<leader>s', group = '[S]earch' },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>w', group = '[W]orkspace' },
-      -- My custom keymaps
-      { '<leader>g', group = '[G]it' },
-      { '<leader>i', group = 'insert' },
-      { '<leader>id', "<cmd>pu=strftime('%c')<cr>", desc = 'Insert Datetime' },
-      { '<leader>b', group = 'Buffers' },
-      {
-        '<leader>bD',
-        function()
-          CloseAllButCurrent()
-        end,
-        desc = 'Delete all other buffers',
-      },
-      { '<leader>bd', '<cmd>bd<cr>', desc = 'Delete Buffer' },
     },
   },
 
@@ -880,7 +895,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'vue' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
