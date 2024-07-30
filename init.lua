@@ -220,6 +220,13 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- Let volar know where Mason installs typescript
+local function getVueTsPluginPathFromMason()
+  local mason_registry = require 'mason-registry'
+  local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+  return vue_language_server_path
+end
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -649,7 +656,7 @@ require('lazy').setup({
             plugins = {
               {
                 name = '@vue/typescript-plugin',
-                location = '$HOME/.npm-global/lib/node_modules/@vue/typescript-plugin/',
+                location = getVueTsPluginPathFromMason(),
                 languages = { 'javascript', 'typescript', 'vue' },
               },
             },
