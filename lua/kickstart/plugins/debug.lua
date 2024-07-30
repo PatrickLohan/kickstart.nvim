@@ -42,12 +42,13 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        'python',
       },
     }
 
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<leader>Dc', dap.continue, { desc = 'Debug: Start/Continue' })
+    vim.keymap.set('n', '<leader>Dq', dap.terminate, { desc = 'Debug: Terminate/Disconnect' })
     vim.keymap.set('n', '<leader>Di', dap.step_into, { desc = 'Debug: Step Into' })
     vim.keymap.set('n', '<leader>Do', dap.step_over, { desc = 'Debug: Step Over' })
     vim.keymap.set('n', '<leader>De', dap.step_out, { desc = 'Debug: Step Out' })
@@ -94,5 +95,14 @@ return {
     --   },
     -- }
     require('dap-python').setup 'python'
+    table.insert(dap.configurations.python, {
+      type = 'python',
+      request = 'launch',
+      name = 'FastAPI',
+      program = vim.fn.getcwd() .. 'main.py',
+      pythonPath = function()
+        return 'python'
+      end,
+    })
   end,
 }

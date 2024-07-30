@@ -93,6 +93,7 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 -- This toggles dark/light automatically using `chiascuro`
 vim.o.background = 'dark'
+-- vim.cmd.colorscheme 'zenbones'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -288,31 +289,34 @@ require('lazy').setup({
       -- Document existing key chains
       require('which-key').add {
         { '<leader>c', group = '[C]ode' },
-        { '<leader>d', group = '[D]ocument' },
+        { '<leader>D', group = '[D]ebug' },
+        { '<leader>l', group = '[L]SP' },
+        { '<leader>ld', group = '[L]SP [D]ocument' },
+        { '<leader>lw', group = '[L]SP [W]orkspace' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         -- My custom keymaps
+        { '<leader>b', group = '[B]uffers' },
         { '<leader>g', group = '[G]it' },
-        { '<leader>i', group = 'insert' },
-        { '<leader>id', "<cmd>pu=strftime('%c')<cr>", desc = 'Insert Datetime' },
-        { '<leader>b', group = 'Buffers' },
+        { '<leader>i', group = '[I]nsert' },
+        { '<leader>id', "<cmd>pu=strftime('%c')<cr>", desc = '[I]nsert [D]atetime' },
         {
           '<leader>bD',
           function()
             CloseAllButCurrent()
           end,
-          desc = 'Delete all other buffers',
+          desc = '[D]elete all other buffers',
         },
-        { '<leader>bd', '<cmd>bd<cr>', desc = 'Delete Buffer' },
+        { '<leader>bd', '<cmd>bd<cr>', desc = '[d]elete this buffer' },
       }
     end,
     keys = {
       -- Document existing key chains
       { '<leader>c', group = '[C]ode' },
-      { '<leader>d', group = '[D]ocument' },
+      { '<leader>D', group = '[D]ebug' },
       { '<leader>g', group = '[G]it' },
       { '<leader>r', group = '[R]ename' },
       { '<leader>s', group = '[S]earch' },
@@ -506,23 +510,23 @@ require('lazy').setup({
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+          map('<leader>lD', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>lds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map('<leader>lws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('<leader>lr', vim.lsp.buf.rename, '[R]ename')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+          map('<leader>lc', vim.lsp.buf.code_action, '[C]ode action')
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap.
@@ -849,7 +853,6 @@ require('lazy').setup({
         vim.cmd.colorscheme 'gruvbones'
       end
     end,
-    -- vim.cmd.colorscheme 'gruvbones'
   },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -940,6 +943,7 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   -- require 'custom.keymaps'
+  -- require 'custom.plugins.dap',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
