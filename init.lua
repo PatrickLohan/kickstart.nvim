@@ -92,7 +92,7 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 -- This toggles dark/light automatically using `chiascuro`
-vim.o.background = 'dark'
+vim.o.background = 'light'
 -- vim.cmd.colorscheme 'zenbones'
 
 -- [[ Setting options ]]
