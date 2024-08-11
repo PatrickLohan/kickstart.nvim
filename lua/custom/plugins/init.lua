@@ -24,4 +24,5 @@ return {
     },
   },
   { 'norcalli/nvim-colorizer.lua' },
+  { 'tpope/vim-obsession' },
 }

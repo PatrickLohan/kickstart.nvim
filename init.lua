@@ -180,10 +180,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -292,20 +292,19 @@ require('lazy').setup({
 
       -- Document existing key chains
       require('which-key').add {
+        { '<leader>b', group = '[B]uffers' },
         { '<leader>c', group = '[C]ode' },
         { '<leader>D', group = '[D]ebug' },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>i', group = '[I]nsert' },
         { '<leader>l', group = '[L]SP' },
         { '<leader>ld', group = '[L]SP [D]ocument' },
         { '<leader>lw', group = '[L]SP [W]orkspace' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-        -- My custom keymaps
-        { '<leader>b', group = '[B]uffers' },
-        { '<leader>g', group = '[G]it' },
-        { '<leader>i', group = '[I]nsert' },
+        { '<leader>w', group = '[W]orkspace' },
         { '<leader>id', "<cmd>pu=strftime('%c')<cr>", desc = '[I]nsert [D]atetime' },
         {
           '<leader>bD',
@@ -318,7 +317,7 @@ require('lazy').setup({
       }
     end,
     keys = {
-      -- Document existing key chains
+      --   -- Document existing key chains
       { '<leader>c', group = '[C]ode' },
       { '<leader>D', group = '[D]ebug' },
       { '<leader>g', group = '[G]it' },
@@ -648,13 +647,14 @@ require('lazy').setup({
             },
             ruff = {
               lineLength = 120,
-              maxLineLength = 120,
               enabled = true,
               formatEnabled = true,
+              extendSelect = { 'ALL' },
+              format = { 'ALL' },
             },
-            black = {
-              enabled = false,
-            },
+            -- black = {
+            --   enabled = true,
+            -- },
           },
         },
         rust_analyzer = {},
