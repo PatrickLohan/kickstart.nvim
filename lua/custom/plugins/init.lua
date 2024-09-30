@@ -24,6 +24,7 @@ return {
       { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
+  { 'tpope/vim-obsession' },
   { 'norcalli/nvim-colorizer.lua' },
   {
     'nomnivore/ollama.nvim',
@@ -76,7 +77,8 @@ return {
           action = 'display',
         },
       },
-  { 'tpope/vim-obsession' },
+    },
+  },
   {
     'yetone/avante.nvim',
     event = 'VeryLazy',
