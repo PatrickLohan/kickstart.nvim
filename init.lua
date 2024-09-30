@@ -90,9 +90,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
+vim.g.have_nerd_font = false
 -- This toggles dark/light automatically using `chiascuro`
-vim.o.background = 'dark'
+vim.o.background = 'light'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -869,9 +869,9 @@ require('lazy').setup({
     priority = 1000,
     init = function()
       if vim.o.background == 'dark' then
-        vim.cmd.colorscheme 'gruvbones'
+        vim.cmd.colorscheme 'retrobox'
       else
-        vim.cmd.colorscheme 'gruvbones'
+        vim.cmd.colorscheme 'PaperColor'
       end
     end,
   },
@@ -1015,3 +1015,5 @@ end
 require('colorizer').setup()
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+------- THE ROBOT OVERLORD
