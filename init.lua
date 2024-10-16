@@ -92,7 +92,7 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 -- This toggles dark/light automatically using `chiascuro`
-vim.o.background = 'light'
+vim.o.background = 'dark'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -633,6 +633,7 @@ require('lazy').setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      local util = require 'lspconfig.util'
       local servers = {
         bashls = {},
         clangd = {},
@@ -647,6 +648,11 @@ require('lazy').setup({
         --
         dockerls = {},
         docker_compose_language_service = {},
+        -- gdscript = {
+        --   cmd = { 'nc', 'localhost', '6005' },
+        --   filetypes = { 'gd', 'gdscript', 'gdscript3' },
+        --   root_dir = util.root_pattern('project.godot', '.git'),
+        -- },
         html = {},
         lua_ls = {
           -- cmd = {...},
@@ -686,7 +692,7 @@ require('lazy').setup({
         },
         rust_analyzer = {},
         -- tailwindcss = {},
-        tsserver = {
+        ts_ls = {
           init_options = {
             plugins = {
               {
@@ -956,7 +962,22 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'gdscript',
+        'gdshader',
+        'godot_resource',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -964,7 +985,7 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { 'ruby', 'gdscript', 'gdshader', 'godot_resource' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },

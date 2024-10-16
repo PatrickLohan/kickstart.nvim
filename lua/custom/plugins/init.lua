@@ -26,59 +26,44 @@ return {
   },
   { 'tpope/vim-obsession' },
   { 'norcalli/nvim-colorizer.lua' },
-  {
-    'nomnivore/ollama.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      {
-        'stevearc/dressing.nvim', -- Optional: Improves the default Neovim UI
-        opts = {},
-      },
-    },
-
-    -- All the user commands added by the plugin
-    cmd = { 'Ollama', 'OllamaModel', 'OllamaServe', 'OllamaServeStop' },
-
-    keys = {
-      -- Sample keybind for prompt menu. Note that the <c-u> is important for selections to work properly.
-      {
-        '<leader>oo',
-        ":<c-u>lua require('ollama').prompt()<cr>",
-        desc = 'ollama prompt',
-        mode = { 'n', 'v' },
-      },
-
-      -- Sample keybind for direct prompting. Note that the <c-u> is important for selections to work properly.
-      {
-        '<leader>oG',
-        ":<c-u>lua require('ollama').prompt('Generate_Code')<cr>",
-        desc = 'ollama Generate Code',
-        mode = { 'n', 'v' },
-      },
-    },
-
-    ---@type Ollama.Config
-    opts = {
-      model = 'mistral-nemo',
-      url = 'http://127.0.0.1:11434',
-      serve = {
-        on_start = false,
-        command = 'ollama',
-        args = { 'serve' },
-        stop_command = 'pkill',
-        stop_args = { '-SIGTERM', 'ollama' },
-      },
-      -- View the actual default prompts in ./lua/ollama/prompts.lua
-      prompts = {
-        Sample_Prompt = {
-          prompt = 'This is a sample prompt that receives $input and $sel(ection), among others.',
-          input_label = '> ',
-          model = 'mistral',
-          action = 'display',
-        },
-      },
-    },
-  },
+  -- {
+  --   'olimorris/codecompanion.nvim',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-treesitter/nvim-treesitter',
+  --     'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
+  --     'nvim-telescope/telescope.nvim', -- Optional: For using slash commands
+  --     { 'stevearc/dressing.nvim', opts = {} }, -- Optional: Improves `vim.ui.select`
+  --   },
+  --   config = true,
+  --   -- opts = {
+  --   --   ---@param adapter CodeCompanion.Adapter
+  --   --   ---@return string
+  --   --   system_prompt = function(adapter)
+  --   --     return "Before answering the question, think through it step-by-step within the <thinking></thinking> tags. Then, detect the user's language from their question and store it in the form of an ISO 639-1 code within the <user_language></user_language> tags. Then, develop your answer in the users' language within the <response></response> tags."
+  --   --   end,
+  --   -- },
+  --   strategies = {
+  --     chat = {
+  --       adapter = 'anthropic',
+  --     },
+  --     inline = {
+  --       adapter = 'anthropic',
+  --     },
+  --     agent = {
+  --       adapter = 'anthropic',
+  --     },
+  --   },
+  --   adapters = {
+  --     anthropic = function()
+  --       return require('codecompanion.adapters').extend('anthropic', {
+  --         env = {
+  --           api_key = 'cmd: echo $ANTHROPIC_API_KEY',
+  --         },
+  --       })
+  --     end,
+  --   },
+  -- },
   {
     'yetone/avante.nvim',
     event = 'VeryLazy',
@@ -125,4 +110,5 @@ return {
       },
     },
   },
+  { 'habamax/vim-godot', event = 'VimEnter' },
 }
